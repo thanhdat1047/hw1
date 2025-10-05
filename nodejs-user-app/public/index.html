@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách User</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>👥 Danh Sách Người Dùng</h1>
+        <div id="userList" class="user-grid">
+            <div class="loading">Đang tải dữ liệu...</div>
+        </div>
+    </div>
+
+    <script>
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/users');
+                const users = await response.json();
+                
+                const userList = document.getElementById('userList');
+                userList.innerHTML = '';
+                
+                users.forEach((user, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'user-card';
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    
+                    const roleClass = `role-${user.role.toLowerCase()}`;
+                    
+                    card.innerHTML = `
+                        <div class="user-id">ID: ${user.id}</div>
+                        <div class="user-name">${user.name}</div>
+                        <div class="user-email">
+                            <span class="icon">📧</span>
+                            ${user.email}
+                        </div>
+                        <span class="user-role ${roleClass}">${user.role}</span>
+                    `;
+                    
+                    userList.appendChild(card);
+                });
+            } catch (error) {
+                document.getElementById('userList').innerHTML = 
+                    '<div class="loading">❌ Lỗi khi tải dữ liệu</div>';
+                console.error('Error:', error);
+            }
+        }
+
+        // Load users khi trang được tải
+        loadUsers();
+    </script>
+</body>
+</html>

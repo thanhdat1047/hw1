@@ -1,0 +1,31 @@
+{
+  "name": "nodejs-user-app",
+  "version": "1.0.0",
+  "description": "Ứng dụng Node.js hiển thị danh sách user với RDS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "user-management",
+    "aws",
+    "rds"
+  ],
+  "author": "thanhdat1047t",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.901.0",
+    "@aws-sdk/client-ssm": "^3.901.0",
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mysql2": "^3.15.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
