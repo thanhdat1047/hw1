@@ -33,14 +33,23 @@ async function initializeDatabase() {
 
 // Get all users
 app.get('/api/users', async (req, res) => {
-  dbCheckInterval();
-
+  console.log('[DEBUG] Received request to /api/users');
+  console.log('[DEBUG] Database ready:', dbReady);
+  
+  if (!dbReady) {
+    console.error('[ERROR] Database not ready');
+    return res.status(503).json({ error: 'Database not connected' });
+  }
+  
   try {
+    console.log('[DEBUG] Fetching users from database...');
     const users = await db.getUsers();
+    console.log('[DEBUG] Users fetched:', users.length);
     res.json(users);
   } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).send('Internal Server Error');
+    console.error('[ERROR] Error fetching users:', error.message);
+    console.error('[ERROR] Stack:', error.stack);
+    res.status(500).json({ error: 'Internal Server Error', message: error.message });
   }
 });
 

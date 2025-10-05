@@ -46,30 +46,20 @@ const getSecret = async (secretName) => {
 // get all SSM parameters
 const getDbConfig = async () => {
   try {
-    const [dbHost, dbUser, dbName, dbPort] = await Promise.all([
-      getParameter(process.env.DB_HOST),
-      getParameter(process.env.DB_USER),
-      getParameter(process.env.DB_NAME),
-      getParameter(process.env.DB_PORT)
-    ]);
-
-    const secret = await getSecret(process.env.DB_PASSWORD);
-    const password = typeof secret === 'object' ? secret.password : secret;
-
-    console.log('Get all parameters from SSM Parameter Store');
+    console.log('Reading DB config directly from .env');
 
     return {
-      host: dbHost,
-      user: dbUser,
-      password: password,
-      database: dbName,
-      port: dbPort ? parseInt(dbPort, 10) : 3306
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
     };
   } catch (error) {
-    console.error('Error fetching all parameters:', error);
+    console.error('Error building DB config:', error);
     throw error;
   }
-}
+};
 
 module.exports = { 
   getDbConfig,
