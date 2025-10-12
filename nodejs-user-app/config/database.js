@@ -57,7 +57,7 @@ const query = async (sql, params) => {
 };
 
 const getUsers = async () => {
-  const sql = 'SELECT id, name, email FROM users';
+  const sql = 'SELECT id, name, email, role FROM users';
   return await query(sql);
 };
 
@@ -67,7 +67,8 @@ const getUserById = async (id) => {
   return results[0];
 };
 
-const createUser = async (name, email, role) => {
+const createUser = async (userData) => {
+  const { name, email, role } = userData;
   const sql = 'INSERT INTO users (name, email, role) VALUES (?, ?, ?)';
   const result = await query(sql, [name, email, role]);
   return { id: result.insertId, name, email, role };

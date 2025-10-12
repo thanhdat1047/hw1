@@ -46,6 +46,14 @@ app.get('/api/users', async (req, res) => {
     console.log('[DEBUG] Fetching users from database...');
     const users = await db.getUsers();
     console.log('[DEBUG] Users fetched:', users.length);
+    
+    // Add cache-busting headers
+    res.set({
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    });
+    
     res.json(users);
   } catch (error) {
     console.error('[ERROR] Error fetching users:', error.message);
