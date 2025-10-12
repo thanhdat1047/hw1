@@ -33,6 +33,7 @@ async function initializeDatabase() {
 
 // Get all users
 app.get('/api/users', async (req, res) => {
+  dbCheck(req, res);
   console.log('[DEBUG] Received request to /api/users');
   console.log('[DEBUG] Database ready:', dbReady);
   

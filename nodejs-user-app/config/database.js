@@ -34,7 +34,8 @@ async function getPool() {
 
 const testConnection = async () => {
   try {
-    const connection = await getPool().getConnection();
+    const pool = await getPool();
+    const connection = await pool.getConnection();
     console.log('RDS connection test successful');
     connection.release();
     return true;
